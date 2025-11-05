@@ -1,0 +1,122 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+}
+
+header {
+    width: 100%;
+    height: 10vh;
+}
+
+main {
+    width: 100%;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.startQuiz {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5vh;
+}
+
+.questionnaire {
+    display: none;
+    flex-direction: column;
+}
+
+.question {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 2vw;
+}
+
+.button {
+    color: white;
+    font-size: 3rem;
+    border: none;
+    width: 5vw;
+    height: 100%;
+}
+
+.button:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); 
+    transform: translateY(-5px); 
+    cursor: pointer;
+}
+
+.btn0{
+    background-color: rgb(204, 0, 0);
+}
+
+.btn1{
+    background-color: rgb(224, 64, 48);
+}
+
+.btn2{
+    background-color: rgb(240, 100, 48);
+}
+
+.btn3{
+    background-color: rgb(248, 140, 48);
+}
+
+.btn4{
+    background-color: rgb(255, 165, 0);
+}
+
+.btn5{
+    background-color: rgb(255, 192, 0);
+}
+
+.btn6{
+    background-color: rgb(230, 218, 50);
+}
+
+.btn7{
+    background-color: rgb(180, 224, 75);
+}
+
+.btn8{
+    background-color: rgb(135, 200, 80);
+}
+
+.btn9{
+    background-color: rgb(80, 175, 50);
+}
+
+.btn10{
+    background-color: rgb(30, 140, 50);
+}
+
+.feedback {
+    display: none;
+}
+
+footer {
+    width: 100%;
+    height: 10vh;
+    text-align: center;
+}

@@ -1,0 +1,8 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # Se o arquivo existir, serve o arquivo
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^ - [L]
+    # Se não existir, passa para o index.php (seu entry point)
+    RewriteRule ^ index.php [L]
+</IfModule>

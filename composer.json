@@ -1,0 +1,23 @@
+{
+    "name": "user/voting",
+    "autoload": {
+        "psr-4": {
+            "User\\Voting\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "VictorRMarcelino",
+            "email": "httpsvictorramos@gmail.com"
+        }
+    ],
+    "require": {
+        "illuminate/database": "^12.36",
+        "illuminate/routing": "^12.37",
+        "illuminate/http": "^12.37",
+        "illuminate/events": "^12.37",
+        "illuminate/container": "^12.37",
+        "illuminate/pipeline": "^12.37",
+        "illuminate/support": "^12.37"
+    }
+}
