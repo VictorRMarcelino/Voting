@@ -2,7 +2,9 @@
     "name": "user/voting",
     "autoload": {
         "psr-4": {
-            "User\\Voting\\": "src/"
+            "src\\": "src/",
+            "routes\\": "routes/",
+            "database\\": "database/"
         }
     },
     "authors": [

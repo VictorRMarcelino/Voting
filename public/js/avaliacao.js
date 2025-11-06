@@ -1,68 +1,82 @@
 var Avaliacao = {
 
-    questoes: [
-        'teste',
-        'teste 2',
-        'teste 3',
-        'teste 4',
-    ],
-
+    questoes: [],
     perguntaAtual: 0,
     respostas: [],
 
+    /** Comportamento realizado ao carregar a tela */
     onLoadAvaliacao: function() {
         Avaliacao.loadScripts();
+        Avaliacao.carregaPerguntas();
     },
 
+    /** Carrega os comportamentos iniciais dos componentes */
     loadScripts: function() {
         $('#btnStartQuiz').on('click', Avaliacao.onClickStartQuiz);
         $('.button').on('click', Avaliacao.onClickButtonAnswer);
+        $('#btnFinalizarAvaliacao').on('click', Avaliacao.salvaQuestionario);
+    },
+
+    /** Carrega as perguntas do formulário */
+    carregaPerguntas: function() {
+        $.ajax({
+            url: 'http://localhost/Voting/public/avaliacao/perguntas',
+            method: 'get'
+        }).then(function(response) {
+            let perguntas = JSON.parse(response);
+            Avaliacao.questoes = perguntas;
+        });
     },
 
     onClickStartQuiz: function() {
-        Avaliacao.loadNextQuestion();
+        Avaliacao.carregaProximaPergunta();
         $('#startQuiz').css('display', 'none'); 
         $('#questionnaire').css('display', 'flex'); 
+    },
+
+    carregaProximaPergunta: function() {
+        $('#question')[0].innerHTML = Avaliacao.questoes[Avaliacao.perguntaAtual];
     },
 
     onClickButtonAnswer: function() {
         Avaliacao.respostas[Avaliacao.perguntaAtual] = this.value;
 
-        if (Avaliacao.perguntaAtual != 3) {
+        if ((Avaliacao.perguntaAtual + 1) != Avaliacao.questoes.length) {
             Avaliacao.perguntaAtual++;
-            Avaliacao.loadNextQuestion();
+            Avaliacao.carregaProximaPergunta();
         } else {
-            Avaliacao.saveAnswers();
+            Avaliacao.exibeFeedback();
         }
-    },
-
-    loadNextQuestion: function() {
-        $('#question')[0].innerHTML = Avaliacao.questoes[Avaliacao.perguntaAtual];
     },
 
     exibeFeedback: function() {
         $('#questionnaire').css('display', 'none');
-        $('#startQuiz').css('feedback', 'flex'); 
+        $('#feedback').css('display', 'flex'); 
     },
 
-    saveAnswers: function() {
+    salvaQuestionario: function() {
+        Avaliacao.respostas['feedback'] = $('#textoFeedback')[0].value;
+
         $.ajax({
-            url: 'localhost:8000/Voting/avaliacao/salvar',
+            url: 'http://localhost/Voting/public/avaliacao/salvar',
             method: 'post',
             data: {respostas: Avaliacao.respostas}
         }).then((response) => {
             Swal.fire({
                 title: 'Avaliação de Qualidade Finalizada',
-                icon: 'info',
+                icon: 'success',
                 text: 'O Estabelecimento agradece sua resposta e ela é muito importante para nós, pois nos ajuda a melhorar continuamente nossos serviços.'
+            }).then((result) => {
+                Avaliacao.reiniciaQuestionario();
             })
         });
     },
 
-    restartQuiz: function() {
+    reiniciaQuestionario: function() {
         Avaliacao.perguntaAtual = 0;
-        $('#startQuiz').css('display', 'flex'); 
+        $('#feedback').css('display', 'none'); 
         $('#questionnaire').css('display', 'none'); 
+        $('#startQuiz').css('display', 'flex'); 
     }
 }
 

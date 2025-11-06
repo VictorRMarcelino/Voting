@@ -113,6 +113,14 @@ main {
 
 .feedback {
     display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 2vh;
+}
+
+.feedback p {
+    text-align: center;
 }
 
 footer {
