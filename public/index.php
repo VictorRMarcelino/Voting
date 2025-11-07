@@ -4,7 +4,14 @@ require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../routes/web.php';
 
 use Illuminate\Http\Request;
+use routes\Router;
 
-$request = Request::capture();
-$response = $router->dispatch($request);
-$response->send();
+try {
+    $request = Request::capture();
+    $response = Router::getInstance()->dispatch($request);
+    $response->send();
+} catch (Throwable $th) {
+
+} catch (Exception $ex) {
+
+}

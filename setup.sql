@@ -6,13 +6,15 @@ CREATE TABLE setor(
 
 CREATE TABLE pergunta(
 	ID SERIAL NOT NULL,
+	id_setor BIGINT not null,
 	pergunta varchar(100) NOT NULL,
 	ativa smallint not null,
-	id_setor BIGINT not null,
-	PRIMARY KEY (ID)
+	PRIMARY KEY (ID, id_setor)
 );
 
 ALTER TABLE pergunta ADD CONSTRAINT "FK_TBPERGUNTA_TBSETOR" FOREIGN KEY (id_setor) REFERENCES setor(id);
+
+
 
 CREATE TABLE dispositivo(
 	ID SERIAL NOT NULL,
@@ -37,11 +39,15 @@ ALTER TABLE avaliacao ADD CONSTRAINT "FK_TBAVALIACAO_TBSETOR" FOREIGN KEY (id_se
 ALTER TABLE avaliacao ADD CONSTRAINT "FK_TBAVALIACAO_TBDISPOSITIVO" FOREIGN KEY (id_dispositivo) REFERENCES dispositivo(id);
 
 CREATE TABLE respostas (
-	ID SERIAL NOT NULL,
+	sequencia SERIAL NOT NULL,
+	id_avaliacao BIGINT NOT NULL,
 	resposta smallint NOT NULL,
 	id_pergunta BIGINT NOT null,
-	PRIMARY KEY (ID)
+	PRIMARY KEY (sequencia, id_avaliacao)
 );
+
+ALTER TABLE respostas ADD CONSTRAINT "FK_TBRESPOSTA_TBAVALIACAO" FOREIGN KEY (id_avaliacao) REFERENCES avaliacao(ID);
+ALTER TABLE respostas ADD CONSTRAINT "FK_TBRESPOSTA_TBPERGUNTA" FOREIGN KEY (id_pergunta) REFERENCES pergunta(ID);
 
 
 INSERT INTO setor (nome) VALUES 
@@ -110,3 +116,6 @@ INSERT INTO pergunta (pergunta, ativa, id_setor) VALUES
 ('As políticas da universidade são aplicadas de forma justa?', 1, 5),
 ('Você se sente ouvido(a) pela administração da universidade?', 1, 5),
 ('Qual é sua satisfação geral com a coordenação e gestão da instituição?', 1, 5);
+
+
+INSERT into dispositivo (nome, ativa, id_setor) VALUES ('teste', 1, 1);

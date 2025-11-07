@@ -3,6 +3,7 @@
 namespace src\controller;
 
 use database\Conexao;
+use database\Query;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -30,11 +31,11 @@ class ControllerAvaliacao extends Controller {
     public function getPerguntas() {
         $sql = 'SELECT * FROM pergunta LIMIT 10';
         $perguntas = [];
-        $result = Conexao::query($sql);
+        $result = Query::query($sql);
 
         if ($result) {
             while ($pergunta = pg_fetch_assoc($result)) {
-                $perguntas[] = $pergunta['pergunta'];
+                $perguntas[$pergunta['id']] = $pergunta['pergunta'];
             }
         }
 
@@ -48,8 +49,18 @@ class ControllerAvaliacao extends Controller {
      * @return void
      */
     public function salvarAvaliacao(Request $request) {
-        $sqlInsertAvalicao = 'INSERT INTO avaliacao(feedback, datahora, id_setor, id_dispositivo) VALUES ($1, $2, $3, $4)';
         $dataAtual = date('d-m-Y');
+        $respostas = $_POST['respostas'];
+        $feedback = isset($respostas['feedback']) ? $respostas['feedback'] : '';
+        $idAvaliacao = Query::insertQueryPrepared('avaliacao', ['feedback', 'datahora', 'id_setor', 'id_dispositivo'], [$feedback, $dataAtual, 1, 1], 'RETURNING ID');
+        
+        foreach ($respostas as $numeroPergunta => $resposta) {
+            if ($numeroPergunta == 0) {
+                continue;
+            }
+
+            Query::insertQueryPrepared('respostas', ['id_avaliacao', 'id_pergunta', 'resposta'], [$idAvaliacao, $numeroPergunta, $resposta]);
+        }
     }
 
     /**

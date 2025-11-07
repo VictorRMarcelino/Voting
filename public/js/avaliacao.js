@@ -1,7 +1,7 @@
 var Avaliacao = {
 
     questoes: [],
-    perguntaAtual: 0,
+    perguntaAtual: 1,
     respostas: [],
 
     /** Comportamento realizado ao carregar a tela */
@@ -23,7 +23,7 @@ var Avaliacao = {
             url: 'http://localhost/Voting/public/avaliacao/perguntas',
             method: 'get'
         }).then(function(response) {
-            let perguntas = JSON.parse(response);
+            let perguntas = Object.values(JSON.parse(response));
             Avaliacao.questoes = perguntas;
         });
     },
@@ -35,13 +35,16 @@ var Avaliacao = {
     },
 
     carregaProximaPergunta: function() {
-        $('#question')[0].innerHTML = Avaliacao.questoes[Avaliacao.perguntaAtual];
+        $("#question").fadeOut(400, function() {
+            $(this).html(Avaliacao.questoes[Avaliacao.perguntaAtual]);
+            $(this).fadeIn(400);
+        });
     },
 
     onClickButtonAnswer: function() {
         Avaliacao.respostas[Avaliacao.perguntaAtual] = this.value;
 
-        if ((Avaliacao.perguntaAtual + 1) != Avaliacao.questoes.length) {
+        if (Avaliacao.perguntaAtual != Avaliacao.questoes.length) {
             Avaliacao.perguntaAtual++;
             Avaliacao.carregaProximaPergunta();
         } else {
@@ -73,7 +76,7 @@ var Avaliacao = {
     },
 
     reiniciaQuestionario: function() {
-        Avaliacao.perguntaAtual = 0;
+        Avaliacao.perguntaAtual = 1;
         $('#feedback').css('display', 'none'); 
         $('#questionnaire').css('display', 'none'); 
         $('#startQuiz').css('display', 'flex'); 
