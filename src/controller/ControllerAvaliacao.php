@@ -2,7 +2,6 @@
 
 namespace src\controller;
 
-use database\Conexao;
 use database\Query;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,11 +15,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ControllerAvaliacao extends Controller {
     
-    /**
-     * Retorna a tela de avaliação
-     * @return void
-     */
-    public function getTela() {
+    /** Retorna a view de avaliação */
+    public function getView() {
         $this->view('avaliacao.html');
     }
 
@@ -61,13 +57,5 @@ class ControllerAvaliacao extends Controller {
 
             Query::insertQueryPrepared('respostas', ['id_avaliacao', 'id_pergunta', 'resposta'], [$idAvaliacao, $numeroPergunta, $resposta]);
         }
-    }
-
-    /**
-     * Salva as respostas da avaliação
-     * @return void
-     */
-    private function salvaRespostas() {
-
     }
 }

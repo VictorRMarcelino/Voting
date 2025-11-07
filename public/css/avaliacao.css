@@ -75,7 +75,7 @@ main {
 .questionnaire {
     display: none;
     flex-direction: column;
-    row-gap: 2vh;
+    row-gap: 10vh;
 }
 
 .question {
@@ -98,6 +98,7 @@ main {
     border: none;
     width: 5vw;
     height: 100%;
+    border-radius: 10px;
 }
 
 .button:hover {
