@@ -21,11 +21,31 @@ class ControllerAvaliacao extends Controller {
     }
 
     /**
+     * Retorna todos os setores
+     * @return Response
+     */
+    public function getSetores() {
+        $sql = 'SELECT * FROM setor';
+        $setores = [];
+        $result = Query::query($sql);
+
+        if ($result) {
+            while ($setor = pg_fetch_assoc($result)) {
+                $setores[] = $setor;
+            }
+        }
+
+
+        return new Response(json_encode($setores));
+    }
+
+    /**
      * Retorna as perguntas da avaliação
      * @return Response
      */
     public function getPerguntas() {
-        $sql = 'SELECT * FROM pergunta LIMIT 10';
+        $setor = $_GET['setor'];
+        $sql = 'SELECT * FROM pergunta where id_setor = ' . $setor;
         $perguntas = [];
         $result = Query::query($sql);
 
@@ -47,8 +67,9 @@ class ControllerAvaliacao extends Controller {
         Query::begin();
         $dataAtual = date('d-m-Y');
         $respostas = $_POST;
+        $setor = array_pop($respostas);
         $feedback = array_pop($respostas);
-        $idAvaliacao = Query::insertQueryPreparedReturningColumn('avaliacao', ['feedback', 'datahora', 'id_setor', 'id_dispositivo'], [$feedback, $dataAtual, 1, 1], 'ID');
+        $idAvaliacao = Query::insertQueryPreparedReturningColumn('avaliacao', ['feedback', 'datahora', 'id_setor', 'id_dispositivo'], [$feedback, $dataAtual, $setor, 1], 'ID');
         
         foreach ($respostas as $numeroPergunta => $resposta) {
             Query::insertQueryPrepared('respostas', ['id_avaliacao', 'id_pergunta', 'resposta'], [$idAvaliacao, $numeroPergunta, $resposta]);

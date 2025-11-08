@@ -76,8 +76,22 @@ main {
     align-items: center;
 }
 
+.definirSetor{
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5vh;
+    font-family: 'Inter', sans-serif;
+}
+
+.definirSetor span {
+    font-weight: 600;
+    font-size: 1vw;
+}
+
 .startQuiz {
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: center;
     align-items: center;

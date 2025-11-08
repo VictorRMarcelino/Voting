@@ -1,13 +1,19 @@
 var Avaliacao = {
 
     questoes: {},
-    perguntaAtual: 1,
+    perguntaAtual: 0,
     respostas: {},
 
     /** Comportamento realizado ao carregar a tela */
     onLoadAvaliacao: function() {
         Avaliacao.loadScripts();
-        Avaliacao.carregaPerguntas();
+        let setor = Cookies.get('setor');
+
+        if (setor == undefined) {
+            Avaliacao.carregaSetores();
+        } else {
+            Avaliacao.carregaPerguntas(setor)
+        }
     },
 
     /** Carrega os comportamentos iniciais dos componentes */
@@ -16,18 +22,50 @@ var Avaliacao = {
         $('.button').on('click', Avaliacao.onClickButtonAnswer);
         $('#btnFinalizarAvaliacao').on('click', Avaliacao.salvaQuestionario);
         $('#areaPainelAdm').on('click', Avaliacao.onClickBotaoPainelAdministrador);
+        $('#btnDefinirSetor').on('click', Avaliacao.onClickBotaoDefinirSetor);
+    },
+
+    carregaSetores: function() {
+        let fnCarregaFiltroSetores = function(response) {
+            let setores = Object.values(JSON.parse(response));
+            $('#listaSetores').append('<option value="0">Selecione...</option>');
+
+            for (let i = 0; i < setores.length; i++) {
+                let novaOpcaoSetor = `<option value="${setores[i]['id']}">${setores[i]['nome']}</option>`;
+                $('#listaSetores').append(novaOpcaoSetor);
+            }
+
+            $('#definirSetor').css('display', 'flex');
+        }
+
+        Ajax.loadAjax({
+            url: 'http://localhost/Voting/public/avaliacao/setores',
+            method: 'get',
+            async: false,
+            fnSucess: fnCarregaFiltroSetores
+        });
+    },
+
+    onClickBotaoDefinirSetor: function() {
+        let setor = $('#listaSetores').val();
+        Cookies.set('setor', setor, { expires: 7});
+        Avaliacao.carregaPerguntas(setor);
     },
 
     /** Carrega as perguntas do formulário */
-    carregaPerguntas: function() {
+    carregaPerguntas: function(setor) {
         let fnSalvarPerguntas = function(response) {
             let perguntas = JSON.parse(response);
             Avaliacao.questoes = perguntas;
+            Avaliacao.perguntaAtual = parseInt(Object.keys(perguntas)[0]);
+            $('#definirSetor').css('display', 'none');
+            $('#startQuiz').css('display', 'flex');
         }
 
         Ajax.loadAjax({
             url: 'http://localhost/Voting/public/avaliacao/perguntas',
             method: 'get',
+            data: {setor: setor},
             fnSucess: fnSalvarPerguntas
         });
     },
@@ -48,7 +86,7 @@ var Avaliacao = {
     onClickButtonAnswer: function() {        
         Avaliacao.respostas[Avaliacao.perguntaAtual] = this.value;
         
-        if (Avaliacao.perguntaAtual != Object.keys(Avaliacao.questoes).length) {
+        if (Avaliacao.perguntaAtual != Object.keys(Avaliacao.questoes).pop()) {
             Avaliacao.perguntaAtual++;
             Avaliacao.carregaProximaPergunta();
         } else {
@@ -63,6 +101,7 @@ var Avaliacao = {
 
     salvaQuestionario: function() {
         Avaliacao.respostas['feedback'] = $('#textoFeedback')[0].value;
+        Avaliacao.respostas['setor'] = Cookies.get('setor');;
 
         let fnExibirMensagemSucesso = function() {
             let tituloMensagemSucesso = 'Avaliação de Qualidade Finalizada';
@@ -81,7 +120,7 @@ var Avaliacao = {
     },
 
     reiniciaQuestionario: function() {
-        Avaliacao.perguntaAtual = 1;
+        Avaliacao.perguntaAtual = parseInt(Object.keys(Avaliacao.questoes)[0]);
         $('#feedback').css('display', 'none'); 
         $('#questionnaire').css('display', 'none'); 
         $('#startQuiz').css('display', 'flex'); 
