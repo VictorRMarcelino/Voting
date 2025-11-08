@@ -10,6 +10,34 @@ namespace database;
  */
 class Conexao {
 
+    private $inTransaction;
+
+    /**
+     * Get the value of inTransaction
+     * @return boolean
+     */ 
+    public function getInTransaction(){
+        return $this->inTransaction;
+    }
+
+    /**
+     * Set the value of inTransaction
+     * @param boolean $inTransaction
+     */ 
+    public function setInTransaction($inTransaction){
+        $this->inTransaction = $inTransaction;
+    }
+
+    public static function getInstance() {
+        static $oConexao = null;
+
+        if (!isset($oConexao)) {
+            $oConexao = new Conexao();
+        }
+
+        return $oConexao;
+    }
+
     /**
      * Retorna a conexão com o banco
      */

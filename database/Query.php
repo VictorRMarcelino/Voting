@@ -27,7 +27,11 @@ class Query {
             $params[] = '$' . ($index + 1);
         }
 
-        pg_query_params($connection, 'INSERT INTO ' . $tabela . ' (' . implode(', ', $colunas) . ') VALUES (' . implode(', ', $params) . ')', $valores);
+        $result = pg_query_params($connection, 'INSERT INTO ' . $tabela . ' (' . implode(', ', $colunas) . ') VALUES (' . implode(', ', $params) . ')', $valores);
+    
+        if (!$result) {
+            throw new \Exception(pg_last_error($connection));
+        }
     }
 
     /**
@@ -50,6 +54,32 @@ class Query {
         if ($result) {
             $row = pg_fetch_assoc($result);
             return $row['id'];
+        } else {
+            throw new \Exception(pg_last_error($connection));
+        }
+    }
+
+    /** Inicia uma nova transação no banco */
+    public static function begin() {
+        if (!Conexao::getInstance()->getInTransaction()) {
+            self::query('begin');
+            Conexao::getInstance()->setInTransaction(true);
+        }
+    }
+
+    /** Executa um commit no banco */
+    public static function commit() {
+        if (Conexao::getInstance()->getInTransaction()) { 
+            self::query('commit');
+            Conexao::getInstance()->setInTransaction(false);
+        }
+    }
+
+    /** Executa um rollback no banco */
+    public static function rollback() {
+        if (Conexao::getInstance()->getInTransaction()) { 
+            self::query('rollback');
+            Conexao::getInstance()->setInTransaction(false);
         }
     }
 }

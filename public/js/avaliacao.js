@@ -1,8 +1,8 @@
 var Avaliacao = {
 
-    questoes: [],
+    questoes: {},
     perguntaAtual: 1,
-    respostas: [],
+    respostas: {},
 
     /** Comportamento realizado ao carregar a tela */
     onLoadAvaliacao: function() {
@@ -19,12 +19,15 @@ var Avaliacao = {
 
     /** Carrega as perguntas do formulário */
     carregaPerguntas: function() {
-        $.ajax({
-            url: 'http://localhost/Voting/public/avaliacao/perguntas',
-            method: 'get'
-        }).then(function(response) {
-            let perguntas = Object.values(JSON.parse(response));
+        let fnSalvarPerguntas = function(response) {
+            let perguntas = JSON.parse(response);
             Avaliacao.questoes = perguntas;
+        }
+
+        Ajax.loadAjax({
+            url: 'http://localhost/Voting/public/avaliacao/perguntas',
+            method: 'get',
+            fnSucess: fnSalvarPerguntas
         });
     },
 
@@ -41,10 +44,10 @@ var Avaliacao = {
         });
     },
 
-    onClickButtonAnswer: function() {
+    onClickButtonAnswer: function() {        
         Avaliacao.respostas[Avaliacao.perguntaAtual] = this.value;
-
-        if (Avaliacao.perguntaAtual != Avaliacao.questoes.length) {
+        
+        if (Avaliacao.perguntaAtual != Object.keys(Avaliacao.questoes).length) {
             Avaliacao.perguntaAtual++;
             Avaliacao.carregaProximaPergunta();
         } else {
@@ -60,18 +63,19 @@ var Avaliacao = {
     salvaQuestionario: function() {
         Avaliacao.respostas['feedback'] = $('#textoFeedback')[0].value;
 
-        $.ajax({
+        let fnExibirMensagemSucesso = function() {
+            let tituloMensagemSucesso = 'Avaliação de Qualidade Finalizada';
+            let mensagemSucesso = 'O Estabelecimento agradece sua resposta e ela é muito importante para nós, pois nos ajuda a melhorar continuamente nossos serviços.O Estabelecimento agradece sua resposta e ela é muito importante para nós, pois nos ajuda a melhorar continuamente nossos serviços.';
+            Message.success(tituloMensagemSucesso, mensagemSucesso, function() {
+                Avaliacao.reiniciaQuestionario();
+            });
+        }
+
+        Ajax.loadAjax({
             url: 'http://localhost/Voting/public/avaliacao/salvar',
             method: 'post',
-            data: {respostas: Avaliacao.respostas}
-        }).then((response) => {
-            Swal.fire({
-                title: 'Avaliação de Qualidade Finalizada',
-                icon: 'success',
-                text: 'O Estabelecimento agradece sua resposta e ela é muito importante para nós, pois nos ajuda a melhorar continuamente nossos serviços.'
-            }).then((result) => {
-                Avaliacao.reiniciaQuestionario();
-            })
+            data: Avaliacao.respostas,
+            fnSucess: fnExibirMensagemSucesso
         });
     },
 

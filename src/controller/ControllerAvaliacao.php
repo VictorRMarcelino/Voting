@@ -44,17 +44,16 @@ class ControllerAvaliacao extends Controller {
      * @return void
      */
     public function salvarAvaliacao(Request $request) {
+        Query::begin();
         $dataAtual = date('d-m-Y');
-        $respostas = $_POST['respostas'];
-        $feedback = isset($respostas['feedback']) ? $respostas['feedback'] : '';
+        $respostas = $_POST;
+        $feedback = array_pop($respostas);
         $idAvaliacao = Query::insertQueryPreparedReturningColumn('avaliacao', ['feedback', 'datahora', 'id_setor', 'id_dispositivo'], [$feedback, $dataAtual, 1, 1], 'ID');
         
         foreach ($respostas as $numeroPergunta => $resposta) {
-            if ($numeroPergunta == 0) {
-                continue;
-            }
-
             Query::insertQueryPrepared('respostas', ['id_avaliacao', 'id_pergunta', 'resposta'], [$idAvaliacao, $numeroPergunta, $resposta]);
         }
+
+        Query::commit();
     }
 }

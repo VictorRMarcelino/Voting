@@ -17,11 +17,7 @@ var PainelAdministrador = {
     },
 
     carregaSetores: function() {
-        $.ajax({
-            url: 'http://localhost/Voting/public/painelAdministrador/setores',
-            method: 'get',
-            async: false
-        }).then(function(response) {
+        let fnCarregaTabelaSetores = function(response) {
             $('#tebelaSetores > tbody').empty();
             let setores = Object.values(JSON.parse(response));
 
@@ -40,6 +36,13 @@ var PainelAdministrador = {
 
             $('#perguntas').css('display', 'none'); 
             $('#setores').css('display', 'flex'); 
+        }
+
+        Ajax.loadAjax({
+            url: 'http://localhost/Voting/public/painelAdministrador/setores',
+            method: 'get',
+            async: false,
+            fnSucess: fnCarregaTabelaSetores
         });
     },
 
@@ -51,11 +54,7 @@ var PainelAdministrador = {
     },
     
     carregaMenuPerguntas: function() {
-        $.ajax({
-            url: 'http://localhost/Voting/public/painelAdministrador/setores',
-            method: 'get',
-            async: false
-        }).then(function(response) {
+        let fnCarregaFiltroSetores = function(response) {
             $('#tebelaSetores > tbody').empty();
             let setores = Object.values(JSON.parse(response));
             $('#listaSetores').append('<option value="0">Selecione...</option>');
@@ -64,6 +63,13 @@ var PainelAdministrador = {
                 let novaOpcaoSetor = `<option value="${setores[i]['id']}">${setores[i]['nome']}</option>`;
                 $('#listaSetores').append(novaOpcaoSetor);
             }
+        }
+
+        Ajax.loadAjax({
+            url: 'http://localhost/Voting/public/painelAdministrador/setores',
+            method: 'get',
+            async: false,
+            fnSucess: fnCarregaFiltroSetores
         });
     },
 
@@ -71,22 +77,14 @@ var PainelAdministrador = {
         let setor = $('#listaSetores').val();
         
         if (parseInt(setor) == 0) {
-            Swal.fire({
-                title: 'Alerta',
-                icon: 'warn',
-                text: 'Selecione um setor para consultar as perguntas.'
-            });
+            Message.warn('Alerta', 'Selecione um setor para consultar as perguntas.');
             return;
         }
 
         $('#tebelaPerguntas > tbody').empty();
 
-        $.ajax({
-            url: 'http://localhost/Voting/public/painelAdministrador/perguntas',
-            method: 'get',
-            data: {idSetor: setor}
-        }).then(function(response) {
-            let perguntas = Object.values(JSON.parse(response));
+        let fnCarregaTabelaPerguntas = function(response) {
+            let perguntas = JSON.parse(response);
             
             for (let i = 0; i < perguntas.length; i++) {
                 let novaLinhaSetor = `
@@ -101,6 +99,13 @@ var PainelAdministrador = {
 
                 $('#tebelaPerguntas > tbody').append(novaLinhaSetor);
             }
+        }
+
+        Ajax.loadAjax({
+            url: 'http://localhost/Voting/public/painelAdministrador/perguntas',
+            method: 'get',
+            data: {idSetor: setor},
+            fnSucess: fnCarregaTabelaPerguntas
         });
     }
 }
