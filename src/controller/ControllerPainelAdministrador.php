@@ -3,13 +3,18 @@
 namespace src\controller;
 
 use database\Query;
+use src\core\Sessao;
 use Symfony\Component\HttpFoundation\Response;
 
 class ControllerPainelAdministrador extends Controller {
 
     /** Retorna a view de painel do administrador */
     public function getView() {
-        return $this->view('painelAdministrador.html');
+        if (Sessao::isSessaoAtiva()) {
+            $this->view('painelAdministrador.html');
+        } else {
+            $this->view('login.html');
+        }
     }
 
     /**

@@ -15,6 +15,7 @@ var Avaliacao = {
         $('#btnStartQuiz').on('click', Avaliacao.onClickStartQuiz);
         $('.button').on('click', Avaliacao.onClickButtonAnswer);
         $('#btnFinalizarAvaliacao').on('click', Avaliacao.salvaQuestionario);
+        $('#areaPainelAdm').on('click', Avaliacao.onClickBotaoPainelAdministrador);
     },
 
     /** Carrega as perguntas do formulário */
@@ -84,6 +85,10 @@ var Avaliacao = {
         $('#feedback').css('display', 'none'); 
         $('#questionnaire').css('display', 'none'); 
         $('#startQuiz').css('display', 'flex'); 
+    },
+
+    onClickBotaoPainelAdministrador: function() {
+        $(location).attr('href', 'http://localhost/Voting/public/painelAdministrador');
     }
 }
 

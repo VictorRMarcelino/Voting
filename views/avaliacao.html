@@ -14,45 +14,47 @@
     <title>Voting</title>
 </head>
 <body>
-    <header>
-        <div class="areaPainelAdm">
-            <h3 class="tituloPainelAdm">Painel do Administrador</h3>
-            <img class="imgPainelAdm" src="/Voting/public/img/engrenagem.png" alt="iconePainelAdm">
-        </div>
-    </header>
-    <main>
-        <div class="startQuiz" id="startQuiz" nam="startQuiz">
-            <h4>Avaliação de Serviço</h4>
-            <button class="btn btn-primary" id="btnStartQuiz" nam="btnStartQuiz">Iniciar</button>
-        </div>
-        <div class="questionnaire" id="questionnaire" nam="questionnaire">
-            <div class="question">
-                <h2 id="question" name="question"></h2>
+    <div class="app">
+        <header>
+            <div class="areaPainelAdm" name="areaPainelAdm" id="areaPainelAdm">
+                <h3 class="tituloPainelAdm">Painel do Administrador</h3>
+                <img class="imgPainelAdm" src="/Voting/public/img/engrenagem.png" alt="iconePainelAdm">
             </div>
-            <div class="buttons">
-                <button class="button btn0" value="0">0</button>
-                <button class="button btn1" value="1">1</button>
-                <button class="button btn2" value="2">2</button>
-                <button class="button btn3" value="3">3</button>
-                <button class="button btn4" value="4">4</button>
-                <button class="button btn5" value="5">5</button>
-                <button class="button btn6" value="6">6</button>
-                <button class="button btn7" value="7">7</button>
-                <button class="button btn8" value="8">8</button>
-                <button class="button btn9" value="9">9</button>
-                <button class="button btn10" value="10">10</button>
+        </header>
+        <main>
+            <div class="startQuiz" id="startQuiz" nam="startQuiz">
+                <h4>Avaliação de Serviço</h4>
+                <button class="btn btn-primary" id="btnStartQuiz" nam="btnStartQuiz">Iniciar</button>
             </div>
-        </div>
-        <div class="feedback" id="feedback" nam="feedback">
-            <h2 class="feedbackTitulo">Avaliação Concluída</h2>
-            <h2 class="feedbackTitulo">Pode nos contar como foi sua experiência? Seu feedback nos ajuda a melhorar continuamente nossos padrões de qualidade. (Opcional)</h2>
-            <textarea class="textoFeedback" name="textoFeedback" id="textoFeedback" maxlength="160" placeholder="Deixe seu feedback em até 160 caracteres"></textarea>
-            <input name="btnFinalizarAvaliacao" id="btnFinalizarAvaliacao" type="submit" value="Finalizar Avaliação" class="btn btn-primary">
-        </div>
-    </main>
-    <footer>
-        <h4>Sua avaliação espontânea é anônima, nenhuma informação pessoal é solicitada ou armazenada.</h4>
-    </footer>
+            <div class="questionnaire" id="questionnaire" nam="questionnaire">
+                <div class="question">
+                    <h2 id="question" name="question"></h2>
+                </div>
+                <div class="buttons">
+                    <button class="button btn0" value="0">0</button>
+                    <button class="button btn1" value="1">1</button>
+                    <button class="button btn2" value="2">2</button>
+                    <button class="button btn3" value="3">3</button>
+                    <button class="button btn4" value="4">4</button>
+                    <button class="button btn5" value="5">5</button>
+                    <button class="button btn6" value="6">6</button>
+                    <button class="button btn7" value="7">7</button>
+                    <button class="button btn8" value="8">8</button>
+                    <button class="button btn9" value="9">9</button>
+                    <button class="button btn10" value="10">10</button>
+                </div>
+            </div>
+            <div class="feedback" id="feedback" nam="feedback">
+                <h2 class="feedbackTitulo">Avaliação Concluída</h2>
+                <h2 class="feedbackTitulo">Pode nos contar como foi sua experiência? Seu feedback nos ajuda a melhorar continuamente nossos padrões de qualidade. (Opcional)</h2>
+                <textarea class="textoFeedback" name="textoFeedback" id="textoFeedback" maxlength="160" placeholder="Deixe seu feedback em até 160 caracteres"></textarea>
+                <input name="btnFinalizarAvaliacao" id="btnFinalizarAvaliacao" type="submit" value="Finalizar Avaliação" class="btn btn-primary">
+            </div>
+        </main>
+        <footer>
+            <h4>Sua avaliação espontânea é anônima, nenhuma informação pessoal é solicitada ou armazenada.</h4>
+        </footer>
+    </div>
 
     <script src="/Voting/public/js/avaliacao.js"></script>
 </body>

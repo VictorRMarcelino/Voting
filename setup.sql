@@ -47,6 +47,13 @@ CREATE TABLE respostas (
 ALTER TABLE respostas ADD CONSTRAINT "FK_TBRESPOSTA_TBAVALIACAO" FOREIGN KEY (id_avaliacao) REFERENCES avaliacao(ID);
 ALTER TABLE respostas ADD CONSTRAINT "FK_TBRESPOSTA_TBPERGUNTA" FOREIGN KEY (id_pergunta) REFERENCES pergunta(ID);
 
+CREATE TABLE administrador (
+	ID SERIAL NOT NULL,
+	usuario VARCHAR(50) NOT NULL,
+	senha VARCHAR(255) NOT NULL,
+	PRIMARY KEY (ID)
+);
+
 
 INSERT INTO setor (nome) VALUES 
 ('Atendimento Acadêmico / Secretaria'),
@@ -117,3 +124,5 @@ INSERT INTO pergunta (pergunta, ativa, id_setor) VALUES
 
 
 INSERT into dispositivo (nome, ativa, id_setor) VALUES ('teste', 1, 1);
+
+INSERT INTO administrador (usuario, senha) VALUES ('teste', '$2y$12$INm7.HtS2nZjtFVhN7MDYOL4UpnZCN9GaeenosyFfp.i2tHWBCjoq');

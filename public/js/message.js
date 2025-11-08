@@ -4,7 +4,8 @@ var Message = {
         Swal.fire({
             title: title,
             icon: icon,
-            text: text
+            text: text,
+            target: document.body,
         }).then((result) => {
             if (fnOk == undefined) {
                 return;
@@ -23,6 +24,6 @@ var Message = {
     },
 
     warn: function(title, text, fnOk) {
-        Message.show(title, 'warn', text, fnOk);
+        Message.show(title, 'warning', text, fnOk);
     }
 }

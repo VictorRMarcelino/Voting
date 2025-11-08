@@ -9,3 +9,4 @@ $router->post('/avaliacao/salvar', '\src\controller\ControllerAvaliacao@salvarAv
 $router->get('/painelAdministrador', '\src\controller\ControllerPainelAdministrador@getView');
 $router->get('/painelAdministrador/setores', '\src\controller\ControllerPainelAdministrador@getSetores');
 $router->get('/painelAdministrador/perguntas', '\src\controller\ControllerPainelAdministrador@getPerguntasByIdSetor');
+$router->get('/login/verificar', '\src\controller\ControllerLogin@login');

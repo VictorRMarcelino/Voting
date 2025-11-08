@@ -10,6 +10,7 @@ var PainelAdministrador = {
         $('#menuOptionSetores').on('click', PainelAdministrador.onClickOpcaoMenuSetores);
         $('#menuOptionPerguntas').on('click', PainelAdministrador.onClickOpcaoMenuPerguntas);
         $('#btnCarregarPerguntas').on('click', PainelAdministrador.onClickBtnCarregarPerguntas);
+        $('#areaAvaliacao').on('click', PainelAdministrador.onClickBotaoAvalicao);
     },
 
     onClickOpcaoMenuSetores: function() {
@@ -34,10 +35,13 @@ var PainelAdministrador = {
                 $('#tebelaSetores > tbody').append(novaLinhaSetor);
             }
 
-            $('#perguntas').css('display', 'none'); 
+            $('#menuItensAguarde').css('display', 'none'); 
             $('#setores').css('display', 'flex'); 
         }
 
+        $('#setores').css('display', 'none'); 
+        $('#perguntas').css('display', 'none'); 
+        $('#menuItensAguarde').css('display', 'flex'); 
         Ajax.loadAjax({
             url: 'http://localhost/Voting/public/painelAdministrador/setores',
             method: 'get',
@@ -47,15 +51,14 @@ var PainelAdministrador = {
     },
 
     onClickOpcaoMenuPerguntas: function() {
-        PainelAdministrador.carregaMenuPerguntas();
-        $('#tebelaPerguntas > tbody').empty();
-        $('#perguntas').css('display', 'flex'); 
         $('#setores').css('display', 'none'); 
+        $('#menuItensAguarde').css('display', 'flex'); 
+        PainelAdministrador.carregaMenuPerguntas();
     },
     
     carregaMenuPerguntas: function() {
         let fnCarregaFiltroSetores = function(response) {
-            $('#tebelaSetores > tbody').empty();
+            $('#tebelaPerguntas > tbody').empty();
             let setores = Object.values(JSON.parse(response));
             $('#listaSetores').append('<option value="0">Selecione...</option>');
 
@@ -63,6 +66,10 @@ var PainelAdministrador = {
                 let novaOpcaoSetor = `<option value="${setores[i]['id']}">${setores[i]['nome']}</option>`;
                 $('#listaSetores').append(novaOpcaoSetor);
             }
+
+            $('#menuItensAguarde').css('display', 'none'); 
+            $('#perguntas').css('display', 'flex'); 
+            $('#setores').css('display', 'none'); 
         }
 
         Ajax.loadAjax({
@@ -107,6 +114,10 @@ var PainelAdministrador = {
             data: {idSetor: setor},
             fnSucess: fnCarregaTabelaPerguntas
         });
+    },
+
+    onClickBotaoAvalicao: function() {
+        $(location).attr('href', 'http://localhost/Voting/public/avaliacao');
     }
 }
 
