@@ -10,7 +10,7 @@ class ControllerPainelAdministrador extends Controller {
 
     /** Retorna a view de painel do administrador */
     public function getView() {
-        if (Sessao::isSessaoAtiva()) {
+        if (Sessao::isUsuarioLogado()) {
             $this->view('painelAdministrador.html');
         } else {
             $this->view('login.html');

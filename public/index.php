@@ -6,10 +6,12 @@ require __DIR__ . '/../routes/web.php';
 use database\Query;
 use Illuminate\Http\Request;
 use routes\Router;
+use src\core\Sessao;
 
 ini_set('display_errors', 0);
 ini_set('log_errors', 1);
 error_reporting(E_ERROR | E_PARSE);
+Sessao::iniciaSessao();
 
 try {
     $request = Request::capture();

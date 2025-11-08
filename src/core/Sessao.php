@@ -20,7 +20,11 @@ class Sessao {
      * Verifica se há uma sessão ativa
      * @return int
      */
-    public static function isSessaoAtiva() {
-        return session_status() == PHP_SESSION_ACTIVE;
+    public static function isUsuarioLogado() {
+        return $_SESSION['logado'] == true;
+    }
+
+    public static function setUsuarioLogado() {
+        $_SESSION['logado'] = true;
     }
 }

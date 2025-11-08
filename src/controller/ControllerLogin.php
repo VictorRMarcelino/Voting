@@ -3,6 +3,7 @@
 namespace src\controller;
 
 use database\Query;
+use src\core\Sessao;
 
 /**
  * Controller Login
@@ -26,6 +27,7 @@ class ControllerLogin extends Controller {
             $usuarioBanco = pg_fetch_assoc($result);
 
             if (password_verify($senha, $usuarioBanco['senha'])) {
+                Sessao::setUsuarioLogado();
                 $logado = true;
             }
         }
