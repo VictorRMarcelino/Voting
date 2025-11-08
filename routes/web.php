@@ -8,3 +8,4 @@ $router->get('/avaliacao/perguntas', '\src\controller\ControllerAvaliacao@getPer
 $router->post('/avaliacao/salvar', '\src\controller\ControllerAvaliacao@salvarAvaliacao');
 $router->get('/painelAdministrador', '\src\controller\ControllerPainelAdministrador@getView');
 $router->get('/painelAdministrador/setores', '\src\controller\ControllerPainelAdministrador@getSetores');
+$router->get('/painelAdministrador/perguntas', '\src\controller\ControllerPainelAdministrador@getPerguntasByIdSetor');

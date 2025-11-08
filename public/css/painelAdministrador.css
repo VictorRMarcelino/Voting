@@ -8,8 +8,54 @@ html, body {
     width: 100vw;
     height: 100vh;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    flex-direction: column;
+}
+
+header {
+    width: 100%;
+    height: 10vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    overflow: hidden;
+    position: relative;
+    padding-right: 1vw;
+}
+
+.areaAvaliacao{
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
+    height: 100%;
+    width: 20%;
+    border-radius: 10px;
+    cursor: pointer;
+    column-gap: 1vw;
+    transition: transform 0.5s ease, background-color 0.5s ease;
+    padding-top: 0.5rem;
+    padding-right: 1rem;
+}
+
+.areaAvaliacao:hover {
+    background-color: #4e9af1;
+}
+
+.areaAvaliacao:hover .tituloAvaliacao {
+    opacity: 1;
+    transition: opacity 0.3s;
+}
+
+.tituloAvaliacao{
+    opacity: 0;
+    color: white;
+}
+
+.imgAvaliacao {
+    width: auto;
+    max-height: 100%;
 }
 
 main {
@@ -32,7 +78,6 @@ main {
     align-items: center;
     background-color: #87ceeb;
     border-radius: 10px;
-    row-gap: 3vh;
 }
 
 .menuOption {
@@ -51,14 +96,66 @@ main {
 }
 
 .menuItens {
-    width: 70%;
+    width: 100%;
     height: 100%;
+}
+
+.menuItens table {
+  width: 100%;
+  height: 100%;
+  border-collapse: collapse;
+}
+
+.menuItens th,
+.menuItens td {
+  border: 1px solid #888;
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.menuItens button {
+  color: white;
 }
 
 .setores {
     display: none;
+    flex-direction: column;
+    max-height: 100%;
+    overflow-y: auto;
+}
+
+.menuSetores {
+    padding: 0.5rem;
+    column-gap: 5rem;
 }
 
 .perguntas {
     display: none;
+    flex-direction: column;
+    max-height: 100%;
+    overflow-y: auto;
+}
+
+.filtrosPerguntas {
+    padding: 0.5rem;
+    column-gap: 5rem;
+}
+
+.listaSetores{
+    border-radius: 5px;
+}
+
+.form-select.auto-width {
+  width: auto;
+  min-width: fit-content;
+}
+
+.modalSetor{
+    display: none;
+    z-index: 1;
+}
+
+.modalPergunta {
+    display: none;
+    z-index: 1;
 }

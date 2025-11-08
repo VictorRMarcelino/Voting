@@ -30,4 +30,19 @@ class ControllerPainelAdministrador extends Controller {
 
         return new Response(json_encode($setores));
     }
+
+    public function getPerguntasByIdSetor() {
+        $idSetor = $_GET['idSetor'];
+        $sql = 'SELECT * FROM pergunta where id_setor = ' . $idSetor;
+        $perguntas = [];
+        $result = Query::query($sql);
+
+        if ($result) {
+            while ($pergunta = pg_fetch_assoc($result)) {
+                $perguntas[] = $pergunta;
+            }
+        }
+
+        return new Response(json_encode($perguntas));
+    }
 }

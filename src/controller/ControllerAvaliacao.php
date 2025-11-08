@@ -35,7 +35,6 @@ class ControllerAvaliacao extends Controller {
             }
         }
 
-
         return new Response(json_encode($perguntas));
     }
 
@@ -48,7 +47,7 @@ class ControllerAvaliacao extends Controller {
         $dataAtual = date('d-m-Y');
         $respostas = $_POST['respostas'];
         $feedback = isset($respostas['feedback']) ? $respostas['feedback'] : '';
-        $idAvaliacao = Query::insertQueryPrepared('avaliacao', ['feedback', 'datahora', 'id_setor', 'id_dispositivo'], [$feedback, $dataAtual, 1, 1], 'RETURNING ID');
+        $idAvaliacao = Query::insertQueryPreparedReturningColumn('avaliacao', ['feedback', 'datahora', 'id_setor', 'id_dispositivo'], [$feedback, $dataAtual, 1, 1], 'ID');
         
         foreach ($respostas as $numeroPergunta => $resposta) {
             if ($numeroPergunta == 0) {

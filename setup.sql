@@ -5,16 +5,14 @@ CREATE TABLE setor(
 );
 
 CREATE TABLE pergunta(
-	ID SERIAL NOT NULL,
+	sequencia SERIAL NOT NULL,
 	id_setor BIGINT not null,
 	pergunta varchar(100) NOT NULL,
 	ativa smallint not null,
-	PRIMARY KEY (ID, id_setor)
+	PRIMARY KEY (sequencia)
 );
 
 ALTER TABLE pergunta ADD CONSTRAINT "FK_TBPERGUNTA_TBSETOR" FOREIGN KEY (id_setor) REFERENCES setor(id);
-
-
 
 CREATE TABLE dispositivo(
 	ID SERIAL NOT NULL,

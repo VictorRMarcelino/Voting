@@ -19,7 +19,7 @@ class Query {
      * @param array $colunas
      * @param array $valores
      */
-    public static function insertQueryPrepared($tabela, array $colunas, array $valores, $colunaRetorno = '') {
+    public static function insertQueryPrepared($tabela, array $colunas, array $valores) {
         $connection = Conexao::getConnection();
         $params = [];
 
@@ -27,7 +27,25 @@ class Query {
             $params[] = '$' . ($index + 1);
         }
 
-        $result = pg_query_params($connection, 'INSERT INTO ' . $tabela . ' (' . implode(', ', $colunas) . ') VALUES (' . implode(', ', $params) . ') ' . $colunaRetorno, $valores);
+        pg_query_params($connection, 'INSERT INTO ' . $tabela . ' (' . implode(', ', $colunas) . ') VALUES (' . implode(', ', $params) . ')', $valores);
+    }
+
+    /**
+     * Executa um insert com uma query prepared
+     * @param string $tabela
+     * @param array $colunas
+     * @param array $valores
+     * @param string $colunaRetorno
+     */
+    public static function insertQueryPreparedReturningColumn($tabela, array $colunas, array $valores, $colunaRetorno = '') {
+        $connection = Conexao::getConnection();
+        $params = [];
+
+        foreach ($colunas as $index => $coluna) {
+            $params[] = '$' . ($index + 1);
+        }
+
+        $result = pg_query_params($connection, 'INSERT INTO ' . $tabela . ' (' . implode(', ', $colunas) . ') VALUES (' . implode(', ', $params) . ') RETURNING ' . $colunaRetorno, $valores);
         
         if ($result) {
             $row = pg_fetch_assoc($result);

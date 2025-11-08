@@ -11,6 +11,12 @@
     <title>Voting</title>
 </head>
 <body>
+    <header>
+        <div class="areaAvaliacao">
+            <h3 class="tituloAvaliacao">Avaliação</h3>
+            <img class="imgAvaliacao" src="/Voting/public/img/avaliacao.png" alt="iconeAvaliacao">
+        </div>
+    </header>
     <main>
         <div class="menu">
             <span class="menuOption" id="menuOptionSetores" name="menuOptionSetores">Setores</span>
@@ -18,30 +24,56 @@
         </div>
         <div class="menuItens">
             <div class="setores" id="setores" name="setores">
+                <div class="menuSetores">
+                    <button class="btn btn-success" id="btnIncluirSetor" name="btnIncluirSetor">Incluir</button>
+                </div>
                 <table id="tebelaSetores" name="tebelaSetores">
                     <thead>
                         <tr>
                             <th>ID</th>
                             <th>Nome</th>
+                            <th>Alterar</th>
+                            <th>Excluir</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
                 </table>
             </div>
             <div class="perguntas" id="perguntas" name="perguntas">
-                <table>
+                <div class="filtrosPerguntas">
+                    <span>Setor:</span>
+                    <select class="listaSetores" name="listaSetores" id="listaSetores"></select>
+                    <button class="btn btn-primary" id="btnCarregarPerguntas" name="btnCarregarPerguntas">Pesquisar</button>
+                    <button class="btn btn-success" id="btnIncluirPergunta" name="btnIncluirPergunta">Incluir</button>
+                </div>
+                <table id="tebelaPerguntas" name="tebelaPerguntas">
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Setor</th>
-                            <th>Sequência</th>
                             <th>Pergunta</th>
+                            <th>Alterar</th>
+                            <th>Excluir</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
                 </table>
             </div>
         </div>
+        <div class="modalSetor" id="modalSetor" name="modalSetor">
+            <div class="modalSetorHeader">
+                <button class="btn btn-danger"></button>
+            </div>
+            <div>
+                <input type="nomeSetor" name="nomeSetor" id="nomeSetor">
+            </div>
+            <div>
+                <button class="btn btn-primary">Confirmar</button>
+            </div>
+        </div>
+        <div class="modalPergunta" id="modalPergunta" name="modalPergunta"></div>
     </main>
+    <footer></footer>
     <script src="/Voting//public/js/painelAdministrador.js"></script>
 </body>
 </html>
