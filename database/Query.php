@@ -10,7 +10,14 @@ class Query {
      */
     public static function query(string $sql) {
         $connection = Conexao::getConnection();
-        return pg_query($connection, $sql);
+        $result = pg_query($connection, $sql);
+        $erro = pg_last_error($connection);
+
+        if ($erro != '') {
+            throw new \Exception($erro);
+        }
+
+        return $result;
     }
 
     /**
@@ -57,6 +64,16 @@ class Query {
         } else {
             throw new \Exception(pg_last_error($connection));
         }
+    }
+
+    public static function update($tabela, array $colunasUpdate, array $condicoes) {
+        $sql = 'UPDATE ' . $tabela . ' SET ' . implode(', ', $colunasUpdate) . ' WHERE ' . implode(' AND ', $condicoes) . '';
+        self::query($sql);
+    }
+
+    public static function delete($tabela, array $condicoes) {
+        $sql = 'DELETE FROM ' . $tabela . ' WHERE ' . implode(' AND ', $condicoes) . '';
+        self::query($sql);
     }
 
     /** Inicia uma nova transação no banco */

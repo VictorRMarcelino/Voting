@@ -13,7 +13,7 @@
     <title>Voting</title>
 </head>
 <body>
-    <div class="app">
+    <div class="app" id="app" name="app">
         <header>
             <div class="areaAvaliacao" id="areaAvaliacao" name="areaAvaliacao">
                 <h3 class="tituloAvaliacao">Avaliação</h3>
@@ -67,20 +67,44 @@
                     <span>Aguarde...</span>
                 </div>
             </div>
-            <div class="modalSetor" id="modalSetor" name="modalSetor">
-                <div class="modalSetorHeader">
-                    <button class="btn btn-danger"></button>
-                </div>
-                <div>
-                    <input type="nomeSetor" name="nomeSetor" id="nomeSetor">
-                </div>
-                <div>
-                    <button class="btn btn-primary">Confirmar</button>
-                </div>
-            </div>
-            <div class="modalPergunta" id="modalPergunta" name="modalPergunta"></div>
         </main>
         <footer></footer>
+    </div>
+    <div class="areaModal" id="areaModal" name="areaModal">
+        <div class="modalSetor" id="modalSetor" name="modalSetor">
+            <div class="modalSetorHeader">
+                <div>
+                    <span class="modalSetorTitulo" id="modalSetorTitulo" name="modalSetorTitulo"></span>
+                </div>
+                <div class="modalSetorHeaderBotoes">
+                    <button class="btn btn-danger" name="modalSetorBotaoFechar" id="modalSetorBotaoFechar">X</button>
+                </div>
+            </div>
+            <div class="modalSetorCampos">
+                <input type="text" class="form-control modalSetorIdSetor" name="modalSetorIdSetor" id="modalSetorIdSetor" readonly>
+                <input type="text" class="form-control modalSetorNomeSetor" name="modalSetorNomeSetor" id="modalSetorNomeSetor" placeholder="Nome do Setor...">
+            </div>
+            <div class="modalSetorFooter">
+                <button class="btn btn-primary" name="modalSetorBotaoConfirmar" id="modalSetorBotaoConfirmar">Confirmar</button>
+            </div>
+        </div>
+        <div class="modalPergunta" id="modalPergunta" name="modalPergunta">
+            <div class="modalPerguntaHeader">
+                <div>
+                    <span class="modalPerguntaTitulo" id="modalPerguntaTitulo" name="modalPerguntaTitulo"></span>
+                </div>
+                <div class="modalPerguntaHeaderBotoes">
+                    <button class="btn btn-danger" name="modalPerguntaBotaoFechar" id="modalPerguntaBotaoFechar">X</button>
+                </div>
+            </div>
+            <div class="modalPerguntaCampos">
+                <input type="text" class="form-control modalPerguntaIdSetor" name="modalPerguntaIdSetor" id="modalPerguntaIdSetor" readonly>
+                <input type="text" class="form-control modalPerguntaNomeSetor" name="modalPerguntaNomeSetor" id="modalPerguntaNomeSetor" placeholder="Nome do Setor...">
+            </div>
+            <div class="modalPerguntaFooter">
+                <button class="btn btn-primary" name="modalPerguntaBotaoConfirmar" id="modalPerguntaBotaoConfirmar">Confirmar</button>
+            </div>
+        </div>
     </div>
     <script src="/Voting//public/js/painelAdministrador.js"></script>
 </body>

@@ -11,3 +11,6 @@ $router->get('/painelAdministrador', '\src\controller\ControllerPainelAdministra
 $router->get('/painelAdministrador/setores', '\src\controller\ControllerPainelAdministrador@getSetores');
 $router->get('/painelAdministrador/perguntas', '\src\controller\ControllerPainelAdministrador@getPerguntasByIdSetor');
 $router->get('/login/verificar', '\src\controller\ControllerLogin@login');
+$router->post('/painelAdministrador/setor/incluir', '\src\controller\ControllerPainelAdministrador@inserirSetor');
+$router->put('/painelAdministrador/setor/alterar', '\src\controller\ControllerPainelAdministrador@alterarSetor');
+$router->delete('/painelAdministrador/setor/deletar', '\src\controller\ControllerPainelAdministrador@excluirSetor');
