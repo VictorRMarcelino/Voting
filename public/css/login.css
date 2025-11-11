@@ -21,32 +21,30 @@ body {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+  height: 100%;
 }
 
 header {
     width: 100%;
-    height: 10vh;
+    height: 10%;
     display: flex;
     flex-direction: row;
     justify-content: end;
     overflow: hidden;
-    position: relative;
-    padding-right: 1vw;
 }
 
 .areaAvaliacao{
     display: flex;
     flex-direction: row;
-    justify-content: end;
+    justify-content: space-around;
     align-items: center;
     height: 100%;
-    width: 15%;
+    max-width: 15%;
     border-radius: 10px;
     cursor: pointer;
     column-gap: 1vw;
     transition: transform 0.5s ease, background-color 0.5s ease;
-    padding-top: 0.5rem;
-    padding-right: 1rem;
 }
 
 .areaAvaliacao:hover {
@@ -61,7 +59,7 @@ header {
 .tituloAvaliacao{
     opacity: 0;
     color: white;
-    font-size: 1.5vw;
+    font-size: 1rem;
     word-break: break-all;
 }
 
@@ -76,11 +74,14 @@ main {
     justify-content: space-between;
     align-items: start;
     width: 30vw;
-    height: 50vh;
+    height: 80%;
     border: 1px solid black;
     border-radius: 10px;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
     padding: 2vw;
+    flex-wrap: wrap;
+    white-space: nowrap;
+    overflow: auto;
 }
 
 .tituloLogin{
@@ -88,9 +89,14 @@ main {
     color: #5C748C;
     font-weight: 600;
     font-size: 1.5vw;
+    flex: 0 1;
 }
 
 main input{
     width: 100%;
     height: 15%;
+}
+
+footer {
+    height: 10%;
 }

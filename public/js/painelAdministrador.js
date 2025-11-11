@@ -14,7 +14,7 @@ var PainelAdministrador = {
         $('#btnIncluirSetor').on('click', PainelAdministrador.onClickBotaoIncluirSetor);
         $('#modalSetorBotaoFechar').on('click', PainelAdministrador.modalSetorBotaoFechar);
         $('#modalSetorBotaoConfirmar').on('click', PainelAdministrador.modalSetorBotaoConfirmar);
-        $('#modalPergunta').on('click', PainelAdministrador.modalSetorAbrirModalPergunta);
+        $('#btnIncluirPergunta').on('click', PainelAdministrador.modalSetorAbrirModalPergunta);
     },
 
     onClickOpcaoMenuSetores: function() {

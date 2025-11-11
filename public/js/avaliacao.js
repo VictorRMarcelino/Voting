@@ -101,7 +101,7 @@ var Avaliacao = {
 
     salvaQuestionario: function() {
         Avaliacao.respostas['feedback'] = $('#textoFeedback')[0].value;
-        Avaliacao.respostas['setor'] = Cookies.get('setor');;
+        Avaliacao.respostas['setor'] = Cookies.get('setor');
 
         let fnExibirMensagemSucesso = function() {
             let tituloMensagemSucesso = 'Avaliação de Qualidade Finalizada';
