@@ -27,7 +27,7 @@ class ControllerAvaliacao extends Controller {
     public function getSetores() {
         $sql = 'SELECT * FROM setor';
         $setores = [];
-        $result = Query::query($sql);
+        $result = Query::select('setor', ['*']);
 
         if ($result) {
             while ($setor = pg_fetch_assoc($result)) {
@@ -45,9 +45,8 @@ class ControllerAvaliacao extends Controller {
      */
     public function getPerguntas() {
         $setor = $_GET['setor'];
-        $sql = 'SELECT * FROM pergunta where id_setor = ' . $setor;
         $perguntas = [];
-        $result = Query::query($sql);
+        $result = Query::select('pergunta', ['*'], ['id_setor = $1'], [$setor]);
 
         if ($result) {
             while ($pergunta = pg_fetch_assoc($result)) {

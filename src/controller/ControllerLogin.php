@@ -20,8 +20,7 @@ class ControllerLogin extends Controller {
         $usuario = $_GET['usuario'];
         $senha = $_GET['senha'];
 
-        $sql = 'SELECT usuario, senha FROM administrador WHERE usuario = \'' . filter_var($usuario, FILTER_SANITIZE_STRING) . '\'';
-        $result = Query::query($sql);
+        $result = Query::select('administrador', ['usuario', 'senha'], ['usuario = $1'], [filter_var($usuario, FILTER_SANITIZE_STRING)]);
 
         if ($result) {
             $usuarioBanco = pg_fetch_assoc($result);

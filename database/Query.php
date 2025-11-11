@@ -21,6 +21,37 @@ class Query {
     }
 
     /**
+     * Executa um select no banco de dados
+     * @param string $tabela
+     * @param array $colunas
+     * @param array $condicoes
+     * @param array $valores
+     * @param array $orderBy
+     * @throws \Exception
+     */
+    public static function select(string $tabela, array $colunas, array $condicoes = [], array $valores = [], array $orderBy = []) {
+        $connection = Conexao::getConnection();
+
+        $sql = 'SELECT ' . implode(', ', $colunas) . ' FROM ' . $tabela;
+
+        if (count($condicoes) > 0) {
+            $sql .= ' WHERE ' . implode(' AND ', $condicoes);
+        }
+        
+        if (count($orderBy) > 0) {
+            $sql .= ' ORDER BY ' . implode(' AND ', $orderBy);
+        }
+
+        $result = pg_query_params($connection, $sql, $valores);
+    
+        if (!$result) {
+            throw new \Exception(pg_last_error($connection));
+        }
+
+        return $result;
+    }
+
+    /**
      * Executa um insert com uma query prepared
      * @param string $tabela
      * @param array $colunas
@@ -66,12 +97,24 @@ class Query {
         }
     }
 
-    public static function update($tabela, array $colunasUpdate, array $condicoes) {
+    /**
+     * Executa um update no banco de dados
+     * @param string $tabela
+     * @param array $colunasUpdate
+     * @param array $condicoes
+     */
+    public static function update(string $tabela, array $colunasUpdate, array $condicoes) {
         $sql = 'UPDATE ' . $tabela . ' SET ' . implode(', ', $colunasUpdate) . ' WHERE ' . implode(' AND ', $condicoes) . '';
         self::query($sql);
     }
 
-    public static function delete($tabela, array $condicoes) {
+    /**
+     * Executa um delete no banco de dados
+     * @param string $tabela
+     * @param array $condicoes
+     * @return void
+     */
+    public static function delete(string $tabela, array $condicoes) {
         $sql = 'DELETE FROM ' . $tabela . ' WHERE ' . implode(' AND ', $condicoes) . '';
         self::query($sql);
     }

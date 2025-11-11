@@ -92,6 +92,9 @@ main {
     align-items: center;
     background-color: #87ceeb;
     border-radius: 10px;
+    flex-wrap: wrap;
+    white-space: nowrap;
+    overflow: auto;
 }
 
 .menuOption {
@@ -269,8 +272,11 @@ main {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    width: 20vw;
-    height: 30vh;
+    width: 50%;
+    height: 70%;
+    flex-wrap: wrap;
+    white-space: nowrap;
+    overflow: auto;
 }
 
 .modalPergunta div {

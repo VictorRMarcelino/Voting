@@ -14,7 +14,9 @@ var PainelAdministrador = {
         $('#btnIncluirSetor').on('click', PainelAdministrador.onClickBotaoIncluirSetor);
         $('#modalSetorBotaoFechar').on('click', PainelAdministrador.modalSetorBotaoFechar);
         $('#modalSetorBotaoConfirmar').on('click', PainelAdministrador.modalSetorBotaoConfirmar);
-        $('#btnIncluirPergunta').on('click', PainelAdministrador.modalSetorAbrirModalPergunta);
+        $('#btnIncluirPergunta').on('click', PainelAdministrador.modalPerguntaAbrir);
+        $('#modalPerguntaBotaoFechar').on('click', PainelAdministrador.modalPerguntaFechar);
+        $('#modalPerguntaBotaoConfirmar').on('click', PainelAdministrador.modalPerguntaConfirmar);
     },
 
     onClickOpcaoMenuSetores: function() {
@@ -109,12 +111,18 @@ var PainelAdministrador = {
                         <td>${perguntas[i]['id']}</td>
                         <td>${perguntas[i]['id_setor']}</td>
                         <td>${perguntas[i]['pergunta']}</td>
-                        <td><button class="btn btn-warning btn-sm">Alterar</button></td>
-                        <td><button class="btn btn-danger btn-sm">Excluir</button></td>
+                        <td><button class="btn btn-warning btn-sm" name="tabelaPerguntaBotaoAlterar${perguntas[i]['id']}" id="tabelaPerguntaBotaoAlterar${perguntas[i]['id']}">Alterar</button></td>
+                        <td><button class="btn btn-danger btn-sm" name="tabelaPerguntaBotaoExcluir${perguntas[i]['id']}" id="tabelaPerguntaBotaoExcluir${perguntas[i]['id']}">Excluir</button></td>
                     </tr>
                 `;
 
                 $('#tebelaPerguntas > tbody').append(novaLinhaSetor);
+                $(`#tabelaPerguntaBotaoAlterar${perguntas[i]['id']}`).on('click', function() {
+                    PainelAdministrador.modalPerguntaAbrir.apply(PainelAdministrador, [perguntas[i]]);
+                });
+                $(`#tabelaPerguntaBotaoExcluir${perguntas[i]['id']}`).on('click', function() {
+                    PainelAdministrador.tabelaPerguntaOnClickBotaoDeletar.apply(PainelAdministrador, [perguntas[i]['id']]);
+                });
             }
         }
 
@@ -204,12 +212,95 @@ var PainelAdministrador = {
         });
     },
 
-    modalSetorAbrirModalPergunta: function() {
-        $('#modalPerguntaTitulo')[0].innerHTML = 'Incluir Pergunta';
-        $('#app').css('opacity', '0.1');
-        $('#areaModal').css('display', 'flex'); 
-        $('#modalPergunta').css('display', 'flex'); 
-    }
+    modalPerguntaAbrir: function(registro) {
+        let fnModalPerguntaCarregaSetores = function(response) {
+            $('#modalPerguntaSetor').empty();
+            let setores = Object.values(JSON.parse(response));
+            $('#modalPerguntaSetor').append('<option value="0">Selecione o setor...</option>');
+
+            for (let i = 0; i < setores.length; i++) {
+                let novaOpcaoSetor = `<option value="${setores[i]['id']}">${setores[i]['nome']}</option>`;
+                $('#modalPerguntaSetor').append(novaOpcaoSetor);
+            }
+
+            if (registro['id'] != undefined && registro['id'] != '') {
+                $('#modalPerguntaId')[0].value = registro['id'];
+                $('#modalPerguntaSetor')[0].value = registro['id_setor'];
+                $('#modalPerguntaQuestao')[0].value = registro['pergunta'];
+                $('#modalPerguntaTitulo')[0].innerHTML = 'Alterar Pergunta';
+            } else {
+                $('#modalPerguntaTitulo')[0].innerHTML = 'Incluir Pergunta';
+            }
+
+            $('#app').css('opacity', '0.1');
+            $('#areaModal').css('display', 'flex'); 
+            $('#modalPergunta').css('display', 'flex'); 
+        }
+
+        Ajax.loadAjax({
+            url: 'http://localhost/Voting/public/painelAdministrador/setores',
+            method: 'get',
+            async: false,
+            fnSucess: fnModalPerguntaCarregaSetores
+        });
+    },
+
+    modalPerguntaFechar: function() {
+        $('#app').css('opacity', '1');
+        $('#areaModal').css('display', 'none'); 
+        $('#modalPergunta').css('display', 'none'); 
+        $('#modalPerguntaTitulo')[0].value = ''; 
+    },
+
+    modalPerguntaConfirmar: function() {
+        let idPergunta = $('#modalPerguntaId').val();
+        let idSetor = $('#modalPerguntaSetor').val();
+        let questao = $('#modalPerguntaQuestao').val();
+
+        let url = 'http://localhost/Voting/public/painelAdministrador/pergunta/incluir';
+        let method = 'post';
+
+        let fnAfterClickBotaoConfirmar = function() {
+            Message.success('Sucesso!', 'Pergunta inserida com sucesso!', function() {
+                PainelAdministrador.modalPerguntaFechar();
+                PainelAdministrador.onClickBtnCarregarPerguntas();
+            });
+        }
+
+        if (idPergunta != '') {
+            url = 'http://localhost/Voting/public/painelAdministrador/pergunta/alterar';
+            method = 'put';
+            fnAfterClickBotaoConfirmar = function() {
+                Message.success('Sucesso!', 'Pergunta alterada com sucesso!', function() {
+                    PainelAdministrador.modalPerguntaFechar();
+                    PainelAdministrador.onClickBtnCarregarPerguntas();
+                });
+            }
+        }
+
+        Ajax.loadAjax({
+            url: url,
+            method: method,
+            data: {idPergunta: idPergunta, idSetor: idSetor, pergunta: questao},
+            async: false,
+            fnSucess: fnAfterClickBotaoConfirmar
+        });
+    },
+
+    tabelaPerguntaOnClickBotaoDeletar: function(idPergunta) {
+        let fnAfterClickBotaoDeletar = function() {
+            Message.success('Sucesso!', 'Pergunta removida com sucesso!', function() {
+                PainelAdministrador.onClickBtnCarregarPerguntas();
+            });
+        }
+
+        Ajax.loadAjax({
+            url: 'http://localhost/Voting/public/painelAdministrador/pergunta/deletar',
+            method: 'delete',
+            data: {idPergunta: idPergunta},
+            fnSucess: fnAfterClickBotaoDeletar
+        });
+    },
 }
 
 PainelAdministrador.onLoadPainelAdministrador();

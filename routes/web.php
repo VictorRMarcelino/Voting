@@ -14,3 +14,6 @@ $router->get('/login/verificar', '\src\controller\ControllerLogin@login');
 $router->post('/painelAdministrador/setor/incluir', '\src\controller\ControllerPainelAdministrador@inserirSetor');
 $router->put('/painelAdministrador/setor/alterar', '\src\controller\ControllerPainelAdministrador@alterarSetor');
 $router->delete('/painelAdministrador/setor/deletar', '\src\controller\ControllerPainelAdministrador@excluirSetor');
+$router->post('/painelAdministrador/pergunta/incluir', '\src\controller\ControllerPainelAdministrador@inserirPergunta');
+$router->put('/painelAdministrador/pergunta/alterar', '\src\controller\ControllerPainelAdministrador@alterarPergunta');
+$router->delete('/painelAdministrador/pergunta/deletar', '\src\controller\ControllerPainelAdministrador@excluirPergunta');
